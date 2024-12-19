@@ -11,8 +11,7 @@ export const Navbar = () => {
     const isDesktop = useMediaQuery('(min-width: 768px)')
     return (
         <nav className={`
-        p-6 flex justify-between fixed bottom-0 border w-full h-fit rounded-xl shadow
-        md:bottom-auto md:top-0 md:rounded-none md:shadow-none md:border-none md:px-10`}>
+        p-10 flex justify-between absolute w-full top-0 z-10`}>
                 <div>
                     <Link href={'/'}>
                         <h1 className="text-xl font-bold text-center leading-5">Elektronowa<br /> Masakra</h1>

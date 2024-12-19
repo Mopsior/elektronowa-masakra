@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/navbar";
 import "./globals.css";
+import { GeistSans } from 'geist/font/sans';    
 
 export default function RootLayout({
   children,
@@ -9,7 +10,7 @@ export default function RootLayout({
   return (
     <html lang="pl">
       <body
-        className={`antialiased`}
+        className={`antialiased ${GeistSans.className}`}
       >
         <Navbar />
         {children}
