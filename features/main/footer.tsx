@@ -14,6 +14,6 @@ export const Footer = () => {
 
 const LegalParagraph = ({ children }: { children: React.ReactNode }) => {
     return (
-        <h4 className="text-muted text-sm">{children}</h4>
+        <h4 className="text-ring text-sm">{children}</h4>
     )
 }
