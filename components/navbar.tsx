@@ -7,7 +7,7 @@ import Link from "next/link"
 export const Navbar = () => {
     return (
         <nav className={`
-        md:px-10 md:py-10 py-6 px-6 flex justify-between absolute w-full top-0 z-10`}>
+        md:px-10 md:py-10 py-6 px-6 flex justify-between w-full top-0 z-10`}>
                 <div>
                     <Link href={'/'}>
                         <p className="text-xl font-bold text-center leading-5">Elektronowa<br /> Masakra</p>

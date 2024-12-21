@@ -1,9 +1,8 @@
-import { MotionCard } from "@/components/motion-components"
+import { hoverPreset, MotionCard } from "@/components/motion-components"
 import { Button } from "@/components/ui/button"
 import { CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import Image from "next/image"
 import { ReactNode } from "react"
-import { Url } from "url"
 
 export const Item = ({ title, children, image, alt }: { title: string, children: ReactNode, image: string, alt: string }) => {
     return (
@@ -12,8 +11,8 @@ export const Item = ({ title, children, image, alt }: { title: string, children:
             // initial for SSR
             initial={false}
             animate={{ scale: 1 }}
-            whileHover={{ scale: 1.05, transition: { ease: 'easeOut', duration: 0.2 } }}
-            whileTap={{ scale: 1.05, transition: { ease: 'easeOut', duration: 0.2 } }}>
+            whileHover={hoverPreset}
+            whileTap={hoverPreset}>
             <CardContent className="flex justify-center items-center pt-6">
                 <Image src={image} alt={alt} width={128} height={128} />
             </CardContent>
