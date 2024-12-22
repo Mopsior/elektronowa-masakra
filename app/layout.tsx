@@ -2,6 +2,7 @@ import { Navbar } from "@/components/navbar";
 import "./globals.css";
 import { GeistSans } from 'geist/font/sans';
 import type { Metadata } from "next";
+import { Footer } from "@/features/main/footer";
 
 const title = "Elektronowa Masakra"
 const description = "Zanurz się w świecie Minecrafta wspólnie z innymi Elektroniarzami!"
@@ -35,6 +36,7 @@ export default function RootLayout({
             >
                 <Navbar />
                 {children}
+                <Footer />
             </body>
         </html>
     );

@@ -14,8 +14,8 @@ export const Navbar = () => {
                     </Link>
                 </div>
                 <div className="flex md:gap-x-4 gap-x-1">
-                    <Button variant={'link'} className="px-2 text-lg"><ShoppingCart />Sklep</Button>
-                    <Button variant={'link'} className="px-2 text-lg">Discord</Button>
+                    <Button variant={'link'} className="px-2 text-lg underline-animation hover:no-underline after:top-8"><ShoppingCart />Sklep</Button>
+                    <Button variant={'link'} className="px-2 text-lg underline-animation hover:no-underline after:top-8">Discord</Button>
                 </div>
             </nav>
     )
