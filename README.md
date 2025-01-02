@@ -34,7 +34,13 @@ git clone https://github.com/Mopsior/elektronowa-masakra && cd elektronowa-masak
 | `NEXT_PUBLIC_API_URL` | API url, starting with `https://`, without `/` at end
 | `NEXT_PUBLIC_DISCORD_INVITE` | Discord server invite |
 | `NEXT_PUBLIC_DOMAIN` | Page url, starting with `https://` |
-3. Build and run
+
+3. Update [`@/app/regulamin/page.mdx`](https://github.com/mopsior/elektronowa-masakra/blob/main/app/regulamin/page.mdx) with your content
+
+> [!WARNING]
+> After every update in `/regulamin`, you need to rebuild application
+
+4. Build and run
 ```bash
 npm run build &&
 npm run start
