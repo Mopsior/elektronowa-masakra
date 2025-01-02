@@ -7,8 +7,16 @@ body {
 }
 
 @layer utilities {
+  .text-white-border {
+    text-shadow: 2px 0 #fff, -2px 0 #fff, 0 2px #fff, 0 -2px #fff,
+    2px 2px #fff, -2px -2px #fff, 2px -2px #fff, -2px 2px #fff;
+  }
   .text-balance {
     text-wrap: balance;
+  }
+  .image-fade {
+    mask-image: linear-gradient(to bottom, black 70%, transparent 83%);
+    -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 83%);
   }
 }
 

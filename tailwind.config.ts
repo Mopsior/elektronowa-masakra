@@ -7,6 +7,8 @@ const config: Config = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./features/**/*.{js,ts,jsx,tsx,mdx}",
+	'./lib/**/*.{js,ts,jsx,tsx,mdx}',
+	'./mdx-components.tsx',
   ],
   theme: {
   	extend: {
@@ -68,6 +70,6 @@ const config: Config = {
 		},
   	}
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require('tailwindcss-motion')],
 };
 export default config;

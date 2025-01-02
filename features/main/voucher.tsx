@@ -5,8 +5,11 @@ import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp"
+import { MotionButton, MotionImage } from "@/components/motion-components"
+import { useState } from "react"
+import { catchError } from "@/utils/catch-error"
+import { useToast } from "@/hooks/use-toast"
 import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp"
 
 const formSchema = z.object({
@@ -15,9 +18,13 @@ const formSchema = z.object({
         .max(16, { message: 'Nazwa gracza nie może mieć więcej niż 16 znaków' })
         .regex(/^[a-zA-Z0-9_]+$/, { message: 'Nazwa gracza może zawierać tylko litery, cyfry i podkreślenia' }),
     code: z.string()
+        .min(1, { message: 'Kod musi mieć co najmniej 1 znak' })
+        .max(8, { message: 'Kod nie może mieć więcej niż 8 znaków' })
 })
 
 export const VoucherSection = () => {
+    const { toast } = useToast()
+    const [status, setStatus] = useState<'initial' | 'hover'>('initial')
     const form = useForm<z.infer<typeof formSchema>>(({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -27,7 +34,47 @@ export const VoucherSection = () => {
     }))
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        const [fetchError, response] = await catchError(fetch(`${process.env.NEXT_PUBLIC_API_URL}/voucher/use`, {
+            method: "POST",
+            body: new URLSearchParams({
+                nick: values.username,
+                code: values.code
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            }
+        }))
+        if (fetchError) {
+            console.error(fetchError)
+            return toast({
+                title: 'Błąd',
+                description: 'Niepoprawny voucher',
+                variant: 'destructive'
+            })
+        }
 
+        const [jsonError, data] = await catchError(response.json())
+        if (jsonError) {
+            console.error(jsonError)
+            return toast({
+                title: 'Błąd',
+                description: 'Nie udało się odebrać vouchera',
+                variant: 'destructive'
+            })
+        }
+
+        if ((response.status !== 200) || !data.success) {
+            return toast({
+                title: 'Błąd',
+                description: 'Niepoprawny voucher',
+                variant: 'destructive'
+            })
+        }
+
+        toast({
+            title: 'Sukces',
+            description: `Voucher ${values.code} został odebrany pomyślnie dla ${values.username}`
+        })
     }
     
     return (
@@ -58,8 +105,12 @@ export const VoucherSection = () => {
                                 <FormItem>
                                     <FormLabel className="text-lg">Kod</FormLabel>
                                     <FormControl>
-                                        <InputOTP maxLength={8} {...field}>
-                                            <InputOTPGroup>
+                                        <InputOTP
+                                            maxLength={8}
+                                            {...field}
+                                            pattern={REGEXP_ONLY_DIGITS_AND_CHARS}
+                                            inputMode="text">
+                                            <InputOTPGroup className="uppercase">
                                                 <InputOTPSlot index={0} />
                                                 <InputOTPSlot index={1} />
                                                 <InputOTPSlot index={2} />
@@ -74,7 +125,39 @@ export const VoucherSection = () => {
                                     <FormMessage />
                                 </FormItem>
                             )}/>
-                        <Button>Odbierz</Button>
+                        <div className="relative mt-10">
+                            <MotionImage
+                                className="absolute top-[-30px] image-fade"
+                                src={'/vouchers.png'}
+                                alt="vouchery"
+                                width={320}
+                                height={160}
+                                animate={status}
+                                onHoverStart={() => setStatus('hover')}
+                                onHoverEnd={() => setStatus('initial')}
+                                onTouchStart={() => setStatus('hover')}
+                                onFocus={() => setStatus('hover')}
+                                onBlur={() => setStatus('initial')}
+                                variants={{
+                                    initial: { opacity: 1, transitionDuration: "0.2s" },
+                                    hover: { opacity: 0.3, transitionDuration: "0.2s" }
+                                }}
+                                />
+                            <MotionButton
+                                type="submit"
+                                animate={status}
+                                onClick={form.handleSubmit(onSubmit)}
+                                onHoverStart={() => setStatus('hover')}
+                                onHoverEnd={() => setStatus('initial')}
+                                onTouchStart={() => setStatus('hover')}
+                                onFocus={() => setStatus('hover')}
+                                onBlur={() => setStatus('initial')}
+                                variants={{
+                                    initial: { scale: 1, transitionDuration: "0.2s" },
+                                    hover: { scale: 1.05, transitionDuration: "0.2s" },
+                                }}
+                             className="w-full cursor-pointer">Odbierz</MotionButton>
+                        </div>
                     </form>
                 </Form>
             </div>
