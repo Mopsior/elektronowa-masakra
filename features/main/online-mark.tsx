@@ -23,7 +23,7 @@ export const OnlineMark = () => {
 
 
     const fetchStatus = async () => {
-        const [fetchError, response] = await catchError(fetch('https://api.mcsrvstat.us/3/elektronowa.xyz'))
+        const [fetchError, response] = await catchError(fetch('https://api.mcsrvstat.us/3/elektronowa.xyz', { next: { revalidate: 20 }, cache: 'no-store' }))
         if (fetchError) {
             return handleError()
         }
@@ -52,7 +52,7 @@ export const OnlineMark = () => {
         fetchStatus()
         const getData = setInterval(() => {
             fetchStatus()
-        }, 120000)
+        }, 30000)
 
         return () => clearInterval(getData)
     }, [])

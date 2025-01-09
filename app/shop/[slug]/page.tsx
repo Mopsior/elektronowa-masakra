@@ -11,7 +11,7 @@ import { notFound } from "next/navigation";
 import { ItemDescription } from "@/features/shop/markdown-parser";
 
 export default async function ItemBuyPage({ params }: { params: { slug: string } }) {
-    const [fetchError, data] = await catchError(fetch(`${process.env.NEXT_PUBLIC_API_URL}/product/get/${params.slug}`))
+    const [fetchError, data] = await catchError(fetch(`${process.env.NEXT_PUBLIC_API_URL}/product/get/${params.slug}`, { cache: 'no-store' }))
     if (fetchError) {
         return notFound()
     }

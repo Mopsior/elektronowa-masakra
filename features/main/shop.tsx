@@ -3,9 +3,7 @@ import { SectionDivider } from "../../components/section-divider"
 import { Item } from "../shop/item"
 
 export const ShopSection = async () => {
-    const [error, data] = await catchError(fetch(`${process.env.NEXT_PUBLIC_API_URL}/product/get`, { cache: 'no-cache', headers: {
-        "ngrok-skip-browser-warning": "true"
-    } }))
+    const [error, data] = await catchError(fetch(`${process.env.NEXT_PUBLIC_API_URL}/product/get`, { cache: 'no-store' }))
     if (error) {
         throw error
     }

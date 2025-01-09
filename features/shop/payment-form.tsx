@@ -119,7 +119,7 @@ export const PaymentForm = ({ slug }: { slug: string }) => {
             })
         }
 
-        const [fetchError, fetchResponse] = await catchError(fetch(`${process.env.NEXT_PUBLIC_API_URL}/promocode/check/${data.promocode}`))
+        const [fetchError, fetchResponse] = await catchError(fetch(`${process.env.NEXT_PUBLIC_API_URL}/promocode/check/${data.promocode}`, { cache: 'no-store' }))
         if (fetchError) {
             setLoading(false)
             return toast({
