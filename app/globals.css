@@ -18,6 +18,22 @@ body {
     mask-image: linear-gradient(to bottom, black 70%, transparent 83%);
     -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 83%);
   }
+
+  .outline-to-bottom {
+    background: linear-gradient(180deg, rgba(217,217,217,1) 0%, rgba(256,256,256,1) 60%);
+  }
+
+  .outline-to-top {
+    background: linear-gradient(180deg, rgba(256,256,256,1) 0%, rgba(217,217,217,1) 40%);
+  }
+
+  .font-outline {
+    background-size: 200% 200%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-stroke: 4px transparent;
+    color: white;
+  }
 }
 
 @layer components {
