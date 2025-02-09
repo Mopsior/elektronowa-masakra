@@ -90,7 +90,7 @@ export const VoucherSection = () => {
                                 <FormItem>
                                     <FormLabel className="text-lg">Nazwa gracza</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="mopsior" {...field} />
+                                        <Input placeholder="np. Qbiter" {...field} />
                                     </FormControl>
                                     <FormDescription>
                                         Nazwa gracza, u którego chcesz odebrać voucher

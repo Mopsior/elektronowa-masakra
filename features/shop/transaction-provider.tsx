@@ -6,12 +6,20 @@ export const PromotionContext = createContext<{promotion: number, setPromotion: 
     setPromotion: () => {}
 })
 
+export const QuantityContext = createContext<{quantity: number, setQuantity: React.Dispatch<React.SetStateAction<number>>}>({
+    quantity: 1,
+    setQuantity: () => {}
+})
+
 export const TransactionProvider = ({ children }: { children: React.ReactNode }) => {
     const [promotion, setPromotion] = useState<number>(0)
+    const [quantity, setQuantity] = useState<number>(1)
 
     return (
         <PromotionContext.Provider value={{promotion, setPromotion}}>
-            {children}
+            <QuantityContext.Provider value={{quantity, setQuantity}}>
+                {children}
+            </QuantityContext.Provider>
         </PromotionContext.Provider>
     )
 }

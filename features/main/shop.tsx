@@ -9,7 +9,7 @@ export const ShopSection = async () => {
     }
     const items = await data.json()
     return (
-        <div className="w-full mt-40 py-8 px-6" id="shop">
+        <div className="w-full md:mt-40 mt-20 py-8 px-6" id="shop">
             <SectionDivider>Sklep</SectionDivider>
             <div className="mt-10 flex flex-wrap w-full justify-center gap-y-4 gap-x-8 ">
                 {items && items.map((item: any) => {

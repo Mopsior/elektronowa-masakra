@@ -9,6 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ItemDescription } from "@/features/shop/markdown-parser";
+import { Quantity } from "@/features/shop/quantity";
 
 export default async function ItemBuyPage({ params }: { params: { slug: string } }) {
     const [fetchError, data] = await catchError(fetch(`${process.env.NEXT_PUBLIC_API_URL}/product/get/${params.slug}`, { cache: 'no-store' }))
@@ -24,13 +25,16 @@ export default async function ItemBuyPage({ params }: { params: { slug: string }
 
     return (
         <TransactionProvider>
-        <div className="flex md:flex-nowrap flex-wrap justify-between gap-4 px-10 md:px-28 pb-[calc(176px_+_56px)] md:pb-[calc(136px+_56px)]">
+        <div className="flex lg:flex-nowrap flex-wrap justify-between gap-4 px-10 md:px-28 pb-[calc(176px_+_56px)] md:pb-[calc(136px+_56px)]">
             <Card className="xl:w-2/3 w-full h-fit">
                 <div className="grid md:grid-cols-2">
                     <CardHeader>
                         <Image src={imgSrc} alt={product.name} width={300} height={300} />
                         <CardTitle>{product.name}</CardTitle>
                         <PriceLabel price={product.price} />
+                        { product.quantity > 0 &&
+                            <Quantity />
+                        }
                     </CardHeader>
                     <CardContent className="md:pt-8 md:pr-8">
                         <ItemDescription>{product.description}</ItemDescription>

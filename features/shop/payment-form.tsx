@@ -23,10 +23,10 @@ import { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import { catchError } from "@/utils/catch-error";
 import { useToast } from "@/hooks/use-toast";
-import { PromotionContext } from "./transaction-provider";
+import { PromotionContext, QuantityContext } from "./transaction-provider";
 
 const formSchema = z.object({
-    paymentMethod: z.enum(["cards", "blik", "paypal", "paysafecard"], {
+    paymentMethod: z.enum(["transfer", "blik", "paypal", "paysafecard"], {
         required_error: "Wybierz sposób płatności"
     }),
     nick: z.string()
@@ -40,6 +40,7 @@ const formSchema = z.object({
 export const PaymentForm = ({ slug }: { slug: string }) => {
     const [loading, setLoading] = useState(false)
     const { setPromotion} = useContext(PromotionContext)
+    const { quantity } = useContext(QuantityContext)
 
     const router = useRouter()
     const { toast } = useToast()
@@ -47,7 +48,7 @@ export const PaymentForm = ({ slug }: { slug: string }) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            paymentMethod: "cards",
+            paymentMethod: "transfer",
             nick: "",
             email: "",
             promocode: ""
@@ -61,6 +62,7 @@ export const PaymentForm = ({ slug }: { slug: string }) => {
             nick: data.nick,
             paymentMethod: data.paymentMethod,
             email: data.email,
+            amount: String(quantity)
         })
         if (data.promocode) body.append("promocode", data.promocode)
 
@@ -156,8 +158,8 @@ export const PaymentForm = ({ slug }: { slug: string }) => {
                         render={({ field }) => (
                             <FormItem>
                                 <FormControl>
-                                    <RadioGroup className="grid md:grid-cols-4 gap-4 grid-cols-2 grid-rows-2 md:grid-rows-1" defaultValue="cards" onValueChange={field.onChange}>
-                                        <PaymentMethod value="cards" name="Karta" loading={loading}>
+                                    <RadioGroup className="grid md:grid-cols-4 gap-4 grid-cols-2 grid-rows-2 md:grid-rows-1" defaultValue="transfer" onValueChange={field.onChange}>
+                                        <PaymentMethod value="transfer" name="Karta" loading={loading}>
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 viewBox="0 0 24 24"
@@ -198,7 +200,7 @@ export const PaymentForm = ({ slug }: { slug: string }) => {
                             <FormItem>
                                 <FormLabel>Nazwa gracza<span className="text-destructive"> *</span></FormLabel>
                                 <FormControl>
-                                    <Input placeholder="mopsior" {...field} disabled={loading}/>
+                                    <Input placeholder="np. Qbiter" {...field} disabled={loading}/>
                                 </FormControl>
                                 <FormDescription>Nazwa gracza z gry Minecraft</FormDescription>
                                 <FormMessage />
@@ -212,7 +214,7 @@ export const PaymentForm = ({ slug }: { slug: string }) => {
                             <FormItem>
                                 <FormLabel>Email<span className="text-destructive"> *</span></FormLabel>
                                 <FormControl>
-                                    <Input placeholder="kontakt@elektronowa.xyz" {...field} disabled={loading} />
+                                    <Input placeholder="np. kontakt@elektronowa.xyz" {...field} disabled={loading} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
